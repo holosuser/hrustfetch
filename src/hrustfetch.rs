@@ -48,11 +48,43 @@ fn knownuptime(){
     io::stdout().flush();
     sheller::run!("uptime -p");
 }
+fn knowncpu(){
+    let content = fs::read_to_string("/proc/cpuinfo").expect("Error read /proc/cpuinfo");
+    if let Some(line) = content.lines().find(|l| l.contains("model name")) {
+        let cpu_model = &line[13..];
+        println!("Cpu: {}", cpu_model.trim());
+    } else {
+        println!("Error model name not found");
+    }
+}
+fn knowngpu(){
+    print!("Gpu: ");
+    io::stdout().flush();
+    sheller::run!("lspci | grep -i vga | cut -b 36- | sed 's/ *(rev.*)//'");
+}
+fn knownterm(){
+    println!("Term: {}", env::var("TERM").unwrap_or_else(|_| "Unknown".to_string()));
+}
+fn knownhostname(){
+    print!("Hostname: {}@", env::var("USER").unwrap_or_else(|_| "Unknown".to_string()));
+    println!("{}",  env::var("HOSTNAME").unwrap_or_else(|_| "Unknown".to_string()));
+}
+fn blockcolors(){
+    for i in 0..16{
+        print!("\x1b[48;5;{}m  \x1b[0m",i);
+    }
+    println!();
+}
 fn main() {
     logo();
     knownos();
     knownkernel();
     knownshell();
+    knownhostname();
     knownwm();
+    knownterm();
     knownuptime();
+    knowncpu();
+    knowngpu();
+    blockcolors();
 }
