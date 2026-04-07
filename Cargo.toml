@@ -1,0 +1,12 @@
+[package]
+name = "hrustfetch"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "hrustfetch"
+path = "src/hrustfetch.rs"
+
+[dependencies]
+colored = "3.1.1"
+sheller = "0.5.4"
