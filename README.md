@@ -1,0 +1,2 @@
+# hrustfetch
+simple fetch
