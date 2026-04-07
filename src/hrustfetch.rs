@@ -15,7 +15,7 @@ fn logo() {
     match osn.as_str(){
         "arch" => run!("viu -t -w 40 -h 20 /etc/hrustfetch/assets/arch.png"),
         "gentoo" => run!("viu -t -w 40 -h 20 /etc/hrustfetch/assets/gentoo.png"),
-        "nix" => run!("viu -t -w 40 -h 20 /etc/hrustfetch/assets/nixos.png"),
+        "nixos" => run!("viu -t -w 40 -h 20 /etc/hrustfetch/assets/nixos.png"),
         "debian" => run!("viu -t -w 40 -h 20 /etc/hrustfetch/assets/debian.png"),
         "void" => run!("viu -t -w 40 -h 20 /etc/hrustfetch/assets/void.png"),
         _ => println!("unknown distro"),
