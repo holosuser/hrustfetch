@@ -1,7 +1,9 @@
 use std::env;
 use std::fs;
 use sheller::run;
-use colored::*;
+//use colored::*;
+//use toml::Value;
+//use once_cell::sync::Lazy;
 use std::io::{self,Write};
 fn logo() {
     let content=fs::read_to_string("/etc/os-release").expect("Error read /etc/os-release");
@@ -21,6 +23,10 @@ fn logo() {
         _ => println!("unknown distro"),
     }
 }
+//static configuration: Lazy<Value> = Lazy::new(||{
+    //let tomlstr=fs::read_to_string("$HOME/.config/hrustfetch/config.toml").expect("Error read config file!");
+    //toml::from_str(&tomlstr).expect("Error parsing config file!")
+//});
 fn knownos(){
     let content=fs::read_to_string("/etc/os-release")
         .expect("Error read /etc/os-release");
@@ -30,7 +36,7 @@ fn knownos(){
         .and_then(|line| line.split_once('='))
         .map(|(_, value)| value.trim_matches('"'))
         .unwrap();
-    println!("Os: {}", pretty_name);
+    println!("Os: {}",pretty_name);
 }
 fn knownkernel(){
     print!("Kernel: ");
@@ -75,7 +81,12 @@ fn blockcolors(){
     }
     println!();
 }
-fn main() {
+fn knownfs(){
+    print!("Filesystem: ");
+    io::stdout().flush();
+    sheller::run!("findmnt -n -o FSTYPE /");
+}
+fn main(){
     logo();
     knownos();
     knownkernel();
@@ -86,5 +97,6 @@ fn main() {
     knownuptime();
     knowncpu();
     knowngpu();
+    knownfs();
     blockcolors();
 }
